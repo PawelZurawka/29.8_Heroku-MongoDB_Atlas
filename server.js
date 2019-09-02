@@ -2,9 +2,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/nodeappdatabase', {
-  useMongoClient: true
-});
+mongoose.connect(
+  'mongodb+srv://pzurawka:HwDp12345@cluster0-ehfrw.mongodb.net/test?retryWrites=true&w=majority',
+  {
+    useMongoClient: true
+  }
+);
 
 //new user Schema
 const userSchema = new Schema({
@@ -114,34 +117,34 @@ const updateUsername = async function() {
   return user;
 };
 
-// const findMarkAndDelete = function() {
-//   //find specific user and delete
-//   return User.findOne({ username: 'Mark_the_boy' }).then(function(user) {
-//     return user.remove(function() {
-//       console.log('User successfully deleted');
-//     });
-//   });
-// };
+const findMarkAndDelete = function() {
+  //find specific user and delete
+  return User.findOne({ username: 'Mark_the_boy' }).then(function(user) {
+    return user.remove(function() {
+      console.log('User successfully deleted');
+    });
+  });
+};
 
-// const findKennyAndDelete = function() {
-//   //find specific user and delete
-//   return User.findOne({ username: 'Kenny_the_boy' }).then(function(user) {
-//     return user.remove(function() {
-//       console.log('User successfully deleted');
-//     });
-//   });
-// };
+const findKennyAndDelete = function() {
+  //find specific user and delete
+  return User.findOne({ username: 'Kenny_the_boy' }).then(function(user) {
+    return user.remove(function() {
+      console.log('User successfully deleted');
+    });
+  });
+};
 
-// const findBennyAndRemove = function() {
-//   //find specific user and delete
-//   return User.findOneAndRemove({ username: 'Benny_the_man' }).then(function(
-//     user
-//   ) {
-//     return user.remove(function() {
-//       console.log('User successfully deleted');
-//     });
-//   });
-// };
+const findBennyAndRemove = function() {
+  //find specific user and delete
+  return User.findOneAndRemove({ username: 'Benny_the_man' }).then(function(
+    user
+  ) {
+    return user.remove(function() {
+      console.log('User successfully deleted');
+    });
+  });
+};
 
 Promise.all([kenny.save(), mark.save(), benny.save()])
   .then(findAllUsers)
