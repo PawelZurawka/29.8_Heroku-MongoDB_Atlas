@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 mongoose.Promise = global.Promise;
 mongoose.connect(
-  'mongodb+srv://pzurawka:HwDp12345@cluster0-ehfrw.mongodb.net/test?retryWrites=true&w=majority',
+  'mongodb+srv://pzurawka:bardzotrudnehaslo@cluster0-1yspr.mongodb.net/test?retryWrites=true&w=majority',
   {
     useMongoClient: true
   }
@@ -22,6 +22,7 @@ const userSchema = new Schema({
 //Mongoose schema method
 userSchema.methods.manify = function(next) {
   this.name = this.name + '-boy';
+
   return next(null, this.name);
 };
 
@@ -29,14 +30,16 @@ userSchema.methods.manify = function(next) {
 userSchema.pre('save', function(next) {
   //pobranie aktualnego czasu
   const currentDate = new Date();
+
   //zmiana pola na aktualny czas
   this.updated_at = currentDate;
-  if (!this.created_at) {
-    this.created_at = currentDate;
-  }
+
+  if (!this.created_at) this.created_at = currentDate;
+
   next();
 });
 
+//model based on userSchema
 const User = mongoose.model('User', userSchema);
 
 //instancje klasy User
@@ -74,22 +77,22 @@ mark.manify(function(err, name) {
 });
 
 const findAllUsers = function() {
-  //find all users
+  // find all users
   return User.find({}, function(err, res) {
     if (err) throw err;
-    console.log('Actual database records are: \n ' + res);
+    console.log('Actual database records are ' + res);
   });
 };
 
 const findSpecificRecord = function() {
-  //find specific record
+  // find specific record
   return User.find({ username: 'Kenny_the_boy' }, function(err, res) {
     if (err) throw err;
-    console.log('Record you are looking for is:\n' + res);
+    console.log('Record you are looking for is ' + res);
   });
 };
 
-const updateUserPassword = function() {
+const updadeUserPassword = function() {
   // update user password
   return User.findOne({ username: 'Kenny_the_boy' }).then(function(user) {
     console.log('Old password is ' + user.password);
@@ -106,19 +109,22 @@ const updateUserPassword = function() {
   });
 };
 
-const updateUsername = async function() {
-  //update username
-  const user = await User.findOneAndUpdate(
+const updateUsername = function() {
+  // update username
+  return User.findOneAndUpdate(
     { username: 'Benny_the_boy' },
-    { $set: { username: 'Benny_the_man' } },
-    { new: true }
+    { username: 'Benny_the_man' },
+    { new: true },
+    function(err, user) {
+      if (err) throw err;
+
+      console.log('Nazwa uzytkownika po aktualizacji to ' + user.username);
+    }
   );
-  console.log('Nazwa uzytkownika po aktualizacji to ' + user.username);
-  return user;
 };
 
 const findMarkAndDelete = function() {
-  //find specific user and delete
+  // find specific user and delete
   return User.findOne({ username: 'Mark_the_boy' }).then(function(user) {
     return user.remove(function() {
       console.log('User successfully deleted');
@@ -127,7 +133,7 @@ const findMarkAndDelete = function() {
 };
 
 const findKennyAndDelete = function() {
-  //find specific user and delete
+  // find specific user and delete
   return User.findOne({ username: 'Kenny_the_boy' }).then(function(user) {
     return user.remove(function() {
       console.log('User successfully deleted');
@@ -136,7 +142,7 @@ const findKennyAndDelete = function() {
 };
 
 const findBennyAndRemove = function() {
-  //find specific user and delete
+  // find specific user and delete
   return User.findOneAndRemove({ username: 'Benny_the_man' }).then(function(
     user
   ) {
@@ -149,7 +155,7 @@ const findBennyAndRemove = function() {
 Promise.all([kenny.save(), mark.save(), benny.save()])
   .then(findAllUsers)
   .then(findSpecificRecord)
-  .then(updateUserPassword)
+  .then(updadeUserPassword)
   .then(updateUsername)
   .then(findMarkAndDelete)
   .then(findKennyAndDelete)
