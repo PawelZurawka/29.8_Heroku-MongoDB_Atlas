@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 mongoose.Promise = global.Promise;
 mongoose.connect(
-  'mongodb+srv://Ciri_1987:<abc12345!>@cluster0-bhpq6.mongodb.net/test?retryWrites=true',
+  'mongodb+srv://pzurawka:bardzotrudnehaslo@cluster0-1yspr.mongodb.net/test?retryWrites=true&w=majority',
   {
     useMongoClient: true
   }
