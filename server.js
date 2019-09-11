@@ -109,17 +109,15 @@ const updadeUserPassword = function() {
   });
 };
 
-const updateUsername = function() {
-  // update username
-  return User.findOneAndUpdate(
+const updateUsername = async function() {
+  //update username
+  const user = await User.findOneAndUpdate(
     { username: 'Benny_the_boy' },
-    { username: 'Benny_the_man' },
+    { $set: { username: 'Benny_the_man' } },
     { new: true }
-  ).exec(function(err, user) {
-    if (err) throw err;
-
-    console.log('Nazwa uzytkownika po aktualizacji to ' + user.username);
-  });
+  );
+  console.log('Nazwa uzytkownika po aktualizacji to ' + user.username);
+  return user;
 };
 
 const findMarkAndDelete = function() {
