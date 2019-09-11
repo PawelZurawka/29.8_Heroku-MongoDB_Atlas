@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 mongoose.Promise = global.Promise;
 mongoose.connect(
-  'mongodb+srv://pzurawka:bardzotrudnehaslo@cluster0-1yspr.mongodb.net/test?retryWrites=true&w=majority',
+  'mongodb+srv://Ciri_1987:<abc12345!>@cluster0-bhpq6.mongodb.net/test?retryWrites=true',
   {
     useMongoClient: true
   }
@@ -92,7 +92,7 @@ const findSpecificRecord = function() {
   });
 };
 
-const updadeUserPassword = function() {
+const updateUserPassword = function() {
   // update user password
   return User.findOne({ username: 'Kenny_the_boy' }).then(function(user) {
     console.log('Old password is ' + user.password);
@@ -109,15 +109,18 @@ const updadeUserPassword = function() {
   });
 };
 
-const updateUsername = async function() {
-  //update username
-  const user = await User.findOneAndUpdate(
+const updateUsername = function() {
+  // update username
+  return User.findOneAndUpdate(
     { username: 'Benny_the_boy' },
-    { $set: { username: 'Benny_the_man' } },
-    { new: true }
+    { username: 'Benny_the_man' },
+    { new: true },
+    function(err, user) {
+      if (err) throw err;
+
+      console.log('Nazwa uzytkownika po aktualizacji to ' + user.username);
+    }
   );
-  console.log('Nazwa uzytkownika po aktualizacji to ' + user.username);
-  return user;
 };
 
 const findMarkAndDelete = function() {
@@ -152,7 +155,7 @@ const findBennyAndRemove = function() {
 Promise.all([kenny.save(), mark.save(), benny.save()])
   .then(findAllUsers)
   .then(findSpecificRecord)
-  .then(updadeUserPassword)
+  .then(updateUserPassword)
   .then(updateUsername)
   .then(findMarkAndDelete)
   .then(findKennyAndDelete)
