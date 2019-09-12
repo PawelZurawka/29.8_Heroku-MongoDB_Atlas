@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const express = require('express');
+const app = express();
 
 mongoose.Promise = global.Promise;
 mongoose.connect(
   'mongodb+srv://pzurawka:bardzotrudnehaslo@cluster0-1yspr.mongodb.net/test?retryWrites=true&w=majority',
   {
-    useMongoClient: true
+    useNewUrlParser: true
   }
 );
 
@@ -160,3 +162,10 @@ Promise.all([kenny.save(), mark.save(), benny.save()])
   .then(findKennyAndDelete)
   .then(findBennyAndRemove)
   .catch(console.log.bind(console));
+
+app.use(express.static(__dirname + '/public'));
+app.get('/', function(req, res) {
+  res.sendFile(__dirname + '/index.html');
+});
+
+const port = process.env.PORT || 8080;
