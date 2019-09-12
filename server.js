@@ -170,5 +170,5 @@ app.get('/', function(req, res) {
 
 const port = process.env.PORT || 8080;
 const server = app.listen(port, function() {
-  console.log(`Przykładowa aplikacja nasłuchuje na http://localhost:${port}`);
+  console.log(`Aplikacja nasłuchuje na http://localhost:${port}`);
 });
